@@ -2,6 +2,8 @@
 
 The measurement system that has been investigated uses knowledge of how magnetic fields permeate through space. This project was done in order to create a sensing tool to determine the distance between two moving carts that follow each other along a track. When the distance between the carts decreases and a crash is evident, a hall effect sensor picks up the change in magnetic field and will apply a breaking mechanism to one cart. The leading cart is equipped with a magnet facing the following cart and the following cart will be equipped with a hall effect sensor facing the first cart. The output voltage of the Hall effect sensor is then used to determine the distance between the carts. The following cart is configured with a DC motor where if the carts get too close to each other, the cart that is following will slow down.
 
+https://github.com/canozcivelek/auto-braking-rc-car/blob/master/autoBrake/autoBrake.ino#L11
+
 ## Getting Started
 
 Open up MATLAB and simply run the simulation and the validation Arduino code in order to run the experiment yourself.
