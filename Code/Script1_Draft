@@ -1,126 +1,72 @@
-const int lMotFwd=9; 
-const int rMotFwd=10;
-const int lMotRev=11;
-const int rMotRev=12; 
-const int onblack= 300;  // reading for black line from sensor is less than this
-const int onWhite= 700; // reading for white line is greater than this
+// A sensing tool to determine the distance between two moving carts that follow 
+// each other along a track.
 
-void setup() {
+// Import Libraries
+#include<Servo.h>
 
+//Variables & pin numbers for the hall effect sensor
+const int trigPin = _;
+const int echoPin = _;
+long      duration;
+int       distance;
+
+//Variables for servo motor
+Servo servo1;
+float pos = 0.0;
+
+// Start main function
+
+void setup()
+{
+  //Establish serial connection through COM3 port
   Serial.begin(9600);
-  
-  // pinMode(A0,INPUT);  
-  pinMode(A1,INPUT);  //extreme left sensor
-  pinMode(A2,INPUT);  //left
-  pinMode(A3,INPUT);  // middle sensor
-  pinMode(A4,INPUT);   // right
-  pinMode(A5,INPUT);  // extreme right sensor
-    
-  pinMode(lMotFwd,OUTPUT); 
-  pinMode(rMotFwd,OUTPUT);
-  pinMode(lMotRev,OUTPUT);  
-  pinMode(rMotRev,OUTPUT); 
+
+  //Variable settings for servo motor
+  servo1.attach( )          //Attaching servo motor to Arduino pin _
+
+  //Variable Settings for hall effect sensor
+  pinMode(trigPin, OUTPUT); //Sets the trigPin as Output
+  pinMode(echoPin, INPUT);  //Sets the echoPin as an Input
+
 }
 
-bool isOnBlack(int sensor){
+// Start Measure Distance
+// Clears the trigPin
+digitalWrite(trigPin, LOW);
+delayMicroseconds(2);
 
-if( sensor<=onblack)
-return true;
+// Sets the trigPin to high for 10 micro seconds
+digitalWrite(trigPin, HIGH);
+delayMicroseconds(10);
+digitalWrite(trigPin,LOW);
+
+// Reads the echoPin, returns the voltage the Hall effect sensor produces
+// this needs to be thought more about
+
+// Calculating the distance in cm
+// distance =
+
+// Prints the distance on the Serial Monitor
+Serial.print("Distance: ");
+Serial println(distance);
+
+// Start the brakes if the distance is less than 5cm
+
+if (distance >= 2)
+{
+  // nothing needs to be done
+}
+
 else
-return false;
-}
-
-bool isOnWhite(int sensor){
-  if(sensor>=onWhite)
-  return true;
-  else
-  return false;
-}
-
-void moveForward()
 {
-  digitalWrite(lMotFwd,HIGH);
-  digitalWrite(rMotFwd,HIGH);
+  // The distance between the carts is too little
 
-  digitalWrite(rMotRev,LOW);
-  digitalWrite(lMotRev,LOW);
+  pos = 135;            //Hard Brake
+  servo1.write(pos); 
+  delay(5000);          //Wait for 5 second after brake 
+  pos = 90;             //Release brakes
+  servo1.write(pos);
   
 }
-
-void turnLeft()
-{
-  digitalWrite(lMotFwd,LOW);
-  digitalWrite(rMotFwd,HIGH);
-  
-  digitalWrite(rMotRev,LOW);
-  digitalWrite(lMotRev,LOW);
 }
 
-void turnRight()
-{
-  digitalWrite(lMotFwd,HIGH);
-  digitalWrite(rMotFwd,LOW);
-  
-  digitalWrite(rMotRev,LOW);
-  digitalWrite(lMotRev,LOW);
-}
-
-void turnCircle()
-{
-  digitalWrite(lMotFwd,LOW);
-  digitalWrite(rMotRev,LOW);
-  digitalWrite(lMotRev,HIGH);
-  digitalWrite(rMotFwd,HIGH);
-}
-
-void Stop()
-{
-
-digitalWrite(lMotFwd,LOW);
-digitalWrite(rMotFwd,LOW);
-digitalWrite(lMotRev,LOW);
-digitalWrite(rMotRev,LOW);
-  
-}
-
-void loop() {
-  // put your main code here, to run repeatedly:
-int sensor1=analogRead(A1);//sensor1  Extreme Left
-int sensor2=analogRead(A2);//sensor2 
-int sensor3=analogRead(A3);//sensor3  middle
-int sensor4=analogRead(A4);//sensor4  
-int sensor5=analogRead(A5);//sensor5   Extreme right
-Serial.print("extreme Left: ");
-Serial.print(sensor1);
-Serial.print("\t lower left: ");
-Serial.print(sensor2);
-Serial.print("\t middle: ");
-Serial.print(sensor3);
-Serial.print("\t lowerRight: ");
-Serial.print(sensor4);
-Serial.print("\t Extreme Right: ");
-Serial.println(sensor5);
-
-if( isOnBlack(sensor1)){
-  turnLeft();
-}else{
-
-  if(isOnBlack(sensor3)&&isOnWhite(sensor1)){
-    moveForward();
-  }else
-
-  if( isOnWhite(sensor1)&& isOnWhite(sensor3)&& isOnBlack(sensor5)  ){
-    turnRight();
-  }else
-  
-  if(isOnBlack(sensor2)){
-    turnLeft();
-  }else
-  if(isOnBlack(sensor4)){
-    turnRight();
-  }else
-  if( isOnWhite(sensor1) && isOnWhite(sensor2) && isOnWhite(sensor3) && isOnWhite(sensor4) && isOnWhite(sensor5) ){
-    turnCircle();   // replace with left if gap is present
-  }
-}
-}
