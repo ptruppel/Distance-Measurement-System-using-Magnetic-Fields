@@ -41,10 +41,10 @@ delayMicroseconds(10);
 digitalWrite(trigPin,LOW);
 
 // Reads the echoPin, returns the voltage the Hall effect sensor produces
-// this needs to be thought more about
+volts = pulseIn(echoPin,HIGH);
 
 // Calculating the distance in cm
-// distance =
+distance = 10*((2615/((Volts-2.5)/0.0025))-1.534);
 
 // Prints the distance on the Serial Monitor
 Serial.print("Distance: ");
