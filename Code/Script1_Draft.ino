@@ -7,6 +7,7 @@
 //Variables & pin numbers for the hall effect sensor
 const int hallPin = A3;
 const int servoPin = _;
+int inputVal = 0;
 long      duration;
 int       distance;
 
@@ -25,8 +26,8 @@ void setup()
   servo1.attach( )          //Attaching servo motor to Arduino pin _
 
   //Variable Settings for hall effect sensor
-  pinMode(trigPin, OUTPUT); //Sets the trigPin as Output
-  pinMode(echoPin, INPUT);  //Sets the echoPin as an Input
+  pinMode(13, OUTPUT);          // Pin 13 has an LED connected on most Arduino boards:
+  pinMode(hallPin,INPUT);    //Pin A3 is connected to the output of proximity sensor
 
 }
 
