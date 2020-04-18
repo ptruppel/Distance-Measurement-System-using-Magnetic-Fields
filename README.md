@@ -42,5 +42,8 @@ This project is not licensed - see the [LICENSE.md](LICENSE.md) file for details
 ## Acknowledgments
 
 This project was helped along by:
+
 https://github.com/canozcivelek/auto-braking-rc-car/blob/master/autoBrake/autoBrake.ino#L11
+
+https://roboindia.com/tutorials/digital-analog-hall-magnetic-sensor-arduino/
 
