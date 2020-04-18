@@ -5,8 +5,8 @@
 #include<Servo.h>
 
 //Variables & pin numbers for the hall effect sensor
-const int trigPin = _;
-const int echoPin = _;
+const int hallPin = A3;
+const int servoPin = _;
 long      duration;
 int       distance;
 
