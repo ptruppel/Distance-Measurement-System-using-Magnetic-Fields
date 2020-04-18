@@ -1,4 +1,5 @@
 %% Script Info
+% Last Update by Josh Hayward on 4/18/2020
 % Mechanics Lab final project: using hall effect sensors and a permanent
 % magnet to control the distance between two carts on a track. Cart 1, in
 % front, has the magnet and Cart 2 has the sensor and a motor with which to
