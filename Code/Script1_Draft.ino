@@ -1,3 +1,4 @@
+// Last Update: Phillip Truppelli 4/18/2020
 // A sensing tool to determine the distance between two moving carts that follow 
 // each other along a track.
 
@@ -30,16 +31,17 @@ void setup()
   pinMode(hallPin,INPUT);    //Pin A3 is connected to the output of proximity sensor
 
 }
-
+void loop() 
+{
 // Start Measure Distance
 // Clears the trigPin
-digitalWrite(trigPin, LOW);
+digitalWrite(hallPin, LOW);
 delayMicroseconds(2);
 
 // Sets the trigPin to high for 10 micro seconds
-digitalWrite(trigPin, HIGH);
+digitalWrite(hallPin, HIGH);
 delayMicroseconds(10);
-digitalWrite(trigPin,LOW);
+digitalWrite(hallPin,LOW);
 
 // Reads the echoPin, returns the voltage the Hall effect sensor produces
 volts = pulseIn(echoPin,HIGH);
@@ -55,19 +57,21 @@ Serial println(distance);
 
 if (distance >= 2)
 {
-  // nothing needs to be done
+  // the distance between the carts is adequate nothing needs to be done
 }
 
 else
 {
   // The distance between the carts is too little
-
-  pos = 135;            //Hard Brake
+  digitalWrite(13, HIGH); // LED on
+  pos = 135;            // Hard Brake
   servo1.write(pos); 
-  delay(5000);          //Wait for 5 second after brake 
-  pos = 90;             //Release brakes
+  delay(5000);          // Wait for 5 second after brake 
+  pos = 90;             // Release brakes
   servo1.write(pos);
-  
 }
+  inputVal = analogRead(hallPin);
+  Serial.println(inputVal);
+  delay(100); // wait 0.1 seconds 
 }
 
