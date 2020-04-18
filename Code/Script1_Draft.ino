@@ -55,12 +55,28 @@ Serial println(distance);
 
 // Start the brakes if the distance is less than 5cm
 
-if (distance >= 2)
+if (distance < 1)
 {
-  // the distance between the carts is adequate nothing needs to be done
+  digitalWrite(13, HIGH); // LED on
+  pos = 135;            // Hard Brake
+  servo1.write(pos); 
+  delay(5000);          // Wait for 5 second after brake 
+  pos = 90;             // Release brakes
+  servo1.write(pos);
 }
 
-else
+else if(distance < 2)
+{
+  // The distance between the carts is too little
+  digitalWrite(13, HIGH); // LED on
+  pos = 140;            // Hard Brake
+  servo1.write(pos); 
+  delay(5000);          // Wait for 5 second after brake 
+  pos = 90;             // Release brakes
+  servo1.write(pos);
+}
+  
+  else if(distance < 3)
 {
   // The distance between the carts is too little
   digitalWrite(13, HIGH); // LED on
@@ -70,6 +86,23 @@ else
   pos = 90;             // Release brakes
   servo1.write(pos);
 }
+  
+  else if(distance < 4)
+{
+  // The distance between the carts is too little
+  digitalWrite(13, HIGH); // LED on
+  pos = 135;            // Hard Brake
+  servo1.write(pos); 
+  delay(5000);          // Wait for 5 second after brake 
+  pos = 90;             // Release brakes
+  servo1.write(pos);
+}
+  
+  else (distance > 4)
+{
+  // the distance between the carts is adequate nothing needs to be done
+}
+        
   inputVal = analogRead(hallPin);
   Serial.println(inputVal);
   delay(100); // wait 0.1 seconds 
