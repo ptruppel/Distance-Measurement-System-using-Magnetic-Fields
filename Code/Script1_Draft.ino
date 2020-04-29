@@ -1,4 +1,4 @@
-// Last Update: Phillip Truppelli 4/18/2020
+// Last Update: Phillip Truppelli 4/29/2020
 // A sensing tool to determine the distance between two moving carts that follow 
 // each other along a track.
 
@@ -7,7 +7,7 @@
 
 //Variables & pin numbers for the hall effect sensor
 const int hallPin = A3;
-const int servoPin = _;
+const int servoPin = _; //Pins identified where the driver board is connected
 int inputVal = 0;
 long      duration;
 int       distance;
@@ -60,7 +60,7 @@ if (distance < 1)
   digitalWrite(13, HIGH); // LED on
   pos = 135;            // Hard Brake
   servo1.write(pos); 
-  delay(5000);          // Wait for 5 second after brake 
+  delay(1000);          // Wait for 5 second after brake 
   pos = 90;             // Release brakes
   servo1.write(pos);
 }
@@ -71,7 +71,7 @@ else if(distance < 2)
   digitalWrite(13, HIGH); // LED on
   pos = 140;            // Hard Brake
   servo1.write(pos); 
-  delay(5000);          // Wait for 5 second after brake 
+  delay(1000);          // Wait for 5 second after brake 
   pos = 90;             // Release brakes
   servo1.write(pos);
 }
@@ -82,7 +82,7 @@ else if(distance < 2)
   digitalWrite(13, HIGH); // LED on
   pos = 135;            // Hard Brake
   servo1.write(pos); 
-  delay(5000);          // Wait for 5 second after brake 
+  delay(1000);          // Wait for 5 second after brake 
   pos = 90;             // Release brakes
   servo1.write(pos);
 }
@@ -93,7 +93,7 @@ else if(distance < 2)
   digitalWrite(13, HIGH); // LED on
   pos = 135;            // Hard Brake
   servo1.write(pos); 
-  delay(5000);          // Wait for 5 second after brake 
+  delay(1000);          // Wait for 5 second after brake 
   pos = 90;             // Release brakes
   servo1.write(pos);
 }
