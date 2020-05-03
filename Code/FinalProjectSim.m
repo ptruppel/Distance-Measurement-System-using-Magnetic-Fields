@@ -18,13 +18,12 @@ sensor_null_voltage = 2.5;
 sensor_low_lim = 0.2;
 sensor_up_lim = 4.8;
 % sensor response time (s)
-sensor_response_time = 3 * 10^-6;
-% cart wheel radius (m)
-wheel_radius = 0.025;
-% cart 2 top speed (rpm)
-top_speed = 200;
+sensor_response_time = 13 * 10^-6;
+% cart 2 speed range (m/s)
+v_min = 0;
+v_max = 0.5;
 % acceleration due to friction (m/s^2), calculated from force balance
-coeff_friction = 0.2;
+coeff_friction = 0.5;
 acc_friction = coeff_friction*9.81;
 
 %% Situational Variables
@@ -49,7 +48,7 @@ cart_width = 0.07;
 
 %% Animation runtime options
 % Save information
-file_name = 'animated_hall_effect_experiment_1';
+file_name = 'animated_hall_effect_experiment_3';
 movie_dur = t_end;                              % s - time for movie to last
 frame_dur = 0.01;                               % s - frame duration
 num_frames = floor(n/(0.01/dt));                % number of frames in animation
@@ -59,14 +58,15 @@ save_animation = 1;                             % if true, save animation to fil
 for i = 2:n
     v1(i-1) = v1fun(i, n, T);
     
-    if i >= 2 + phase_delay
+    if i > 2 + phase_delay
         dist = x1(i-1-phase_delay) - x2(i-1-phase_delay);
         field_strength = getFieldStrength(dist);
         sensor_output = getSensorOutput(field_strength, sensor_null_voltage, sensor_sensitivity, sensor_up_lim, sensor_low_lim);
-        if sensor_output == 0 && i > 2
+        if sensor_output <= 0
             v2(i-1) = v2(i-2) - acc_friction*dt;   % if sliding
         else
-            v2(i-1) = 2*pi*wheel_radius*setMotorSpeed(sensor_output, top_speed)/60;     % if speed controlled directly by motor
+            v2(i-1) = v2(i-2) + setMotorAcc(sensor_output)*acc_friction*dt;     % if speed controlled directly by motor
+            v2(i-1) = max(min(v2(i-1), v_max), v_min);
         end
     end
     
@@ -152,23 +152,27 @@ function [sensor_output] = getSensorOutput(field_strength, sensor_null_voltage, 
     sensor_output = max(min(sensor_output, sensor_up_lim), sensor_low_lim);
 end
 
-function [motor_speed] = setMotorSpeed(sensor_output, top_speed)
+function [acc_factor] = setMotorAcc(sensor_output)
     % sensor_output: sensor output (V)
-    % motor_speed: speed to set motor to (rpm)
+    % acc_factor: speed to set motor to accelerate cart by this amount
+    % times acc_friction
     if sensor_output > 2.5492
         % if within ~1 cm, full brakes
-        motor_speed = 0;
+        acc_factor = -1;
     elseif sensor_output > 2.5141
-        % ~2 cm
-        motor_speed = 0.25*top_speed;
+        % ~1-2 cm
+        acc_factor = -0.9;
     elseif sensor_output > 2.5066
-        % ~3 cm
-        motor_speed = 0.5*top_speed;
+        % ~2-3 cm
+        acc_factor = -0.8;
     elseif sensor_output > 2.5038
-        % ~4 cm
-        motor_speed = 0.75*top_speed;
+        % ~3-4 cm
+        acc_factor = -0.6;
+    elseif sensor_output > 2.5025
+        % ~4-5 cm
+        acc_factor = -0.4;
     else
-        motor_speed = top_speed;
+        acc_factor = 1;
     end
 end
 
@@ -178,15 +182,23 @@ function [speed] = v1fun(i, n, T)
     % speed: set speed to [speed] m/s
     if i/n < 1/8
         speed = 0;
-    elseif i/n < 2/8
-        speed = 1;
+    elseif i/n < 1.5/8
+        speed = 0.8;
     elseif i/n < 4/8
         speed = 0.1;
     elseif i/n < 0.7143
-        speed = 0.3 + 0.3*sin(20*T(i-1) - 1);
+        speed = 0.25 + 0.25*sin(20*T(i-1) - 1);
     elseif i/n < 6.5/8
-        speed = 1;
+        speed = 0.8;
     else
         speed = 0;
+    end
+end
+
+function [speed] = v1fun_2(i, n, T)
+    if i/n < 0.2
+        speed = 0;
+    else
+        speed = -0.75*(i/n - 1);
     end
 end
