@@ -33,18 +33,9 @@ void setup()
 }
 void loop() 
 {
-// Start Measure Distance
-// Clears the trigPin
-digitalWrite(hallPin, LOW);
-delayMicroseconds(2);
 
-// Sets the trigPin to high for 10 micro seconds
-digitalWrite(hallPin, HIGH);
-delayMicroseconds(10);
-digitalWrite(hallPin,LOW);
-
-// Reads the echoPin, returns the voltage the Hall effect sensor produces
-volts = pulseIn(echoPin,HIGH);
+// Reads the hallPin, returns the voltage the Hall effect sensor produces
+volts = pulseIn(hallPin,HIGH);
 
 // Calculating the distance in cm
 distance = 10*((2615/((Volts-2.5)/0.0025))-1.534);
