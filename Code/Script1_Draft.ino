@@ -7,7 +7,7 @@
 
 //Variables & pin numbers for the hall effect sensor
 const int hallPin = A3;
-const int servoPin = _; //Pins identified where the driver board is connected
+const int servoPin = 5; //Pins identified where the driver board is connected
 int inputVal = 0;
 long      duration;
 int       distance;
